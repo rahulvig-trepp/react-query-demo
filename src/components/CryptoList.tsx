@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button, CircularProgress, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Button, CircularProgress, LinearProgress, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useAddToPortfolio, useCryptoData } from '../hooks/useCryptoData';
 import { useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+
+// Demo 1 -> All Defaults
 
 
 const StyledTable = styled(Table)(({ theme }) => ({
@@ -40,10 +41,22 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }))
 
 export const CryptoList = () => {
-    const { status, isFetching, data: cryptoData, error }: any = useCryptoData();
+    const { isLoading, data: cryptoData, error, isFetching }: any = useCryptoData();
     const queryClient = useQueryClient();
     const { revertState: queryCache }: any = queryClient?.getQueryCache()?.find(['crypto-data'])
     const mutation = useAddToPortfolio()
+
+    // isLoading when loading for the first time and has no data yet.
+
+    if (isLoading) {
+        return <CircularProgress />
+    }
+    
+    // isFetching is useful when you need to refetch the data  
+    // if (isFetching) {
+    //     return <LinearProgress />
+    // }
+
     if (cryptoData) {
         return (
             <TableContainer component={Paper} variant={'elevation'} style={{ border: '1px solid lightgray' }}>
@@ -70,7 +83,7 @@ export const CryptoList = () => {
                                 <TableCell align="right">{coin.symbol}</TableCell>
                                 <TableCell align="right" className={`price ${Number(queryCache?.data?.[idx]?.price) > Number(coin.price) ? 'dec' : 'inc'}`}>${coin.price}</TableCell>
                                 <TableCell align="right">{coin.last_updated}</TableCell>
-                                <TableCell align="right"><Button color='primary' onClick={(event) => mutation.mutate(coin)}>+</Button></TableCell>
+                                <TableCell align="right"><Button color='primary' onClick={() => mutation.mutate(coin)}>+</Button></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -83,5 +96,5 @@ export const CryptoList = () => {
         return <div>Oh no, something happened :/</div>
     }
 
-    return <CircularProgress />
+    return <></>
 }

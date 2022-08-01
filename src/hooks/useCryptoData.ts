@@ -4,30 +4,29 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export const useCryptoData = () => {
    const getCryptoData = async () => (await axios.get('/crypto_data'))?.data;
    return useQuery(['crypto-data'], getCryptoData, {
-      // staleTime: 1000,
+      // staleTime: 5000,
       // staleTime: Infinity,
+      // cacheTime: 1000, 
       // refetchInterval: 1000,
       // select: (data) => {
-      //    return data.slice(0, 10);
+      //    return data.slice(0, 3);
       // }
-      // cacheTime: 1000, 
       // refetchOnWindowFocus: false,
       // refetchOnMount: false,
    });
 }
 
 export const usePortfolio = () => {
-   const queryClient = useQueryClient()
    const getPortfolio = async () => (await axios.get('/portfolio'))?.data;
    return useQuery(['portfolio'], getPortfolio, {
-      // staleTime: Infinity,
-      initialData: () => [{
-         name: 'Dummy Coin',
-         cmc_rank: 0,
-         symbol: 'N/A',
-         price: '$0.00',
-         last_updated: new Date().toDateString()
-      }],
+      staleTime: Infinity,
+      // initialData: () => [{
+      //    name: 'Dummy Coin',
+      //    cmc_rank: 0,
+      //    symbol: 'N/A',
+      //    price: '$0.00',
+      //    last_updated: new Date().toDateString()
+      // }],
       // placeholderData: () => [{
       //    name: 'Dummy Coin',
       //    cmc_rank: 0,
@@ -53,8 +52,9 @@ export const useAddToPortfolio = () => {
          onSuccess: () => {
             // ✅ refetch portfolio
             queryClient.invalidateQueries(['portfolio'])
+
             // ✅ refetch crypto data
-            queryClient.invalidateQueries(['crypto-data'])
+            // queryClient.invalidateQueries(['crypto-data'])
          },
       }
    )

@@ -5,9 +5,14 @@ import { usePortfolio } from '../hooks/useCryptoData'
 type Props = {}
 
 export const Portfolio = (props: Props) => {
-    const portfolio = usePortfolio();
+    const {data: portfolio, error, isFetching} = usePortfolio();
+    if (error) {
+        return <div>Oh no couldn't fetch portfolio</div>
+    }
     return (
-        <>{!!portfolio?.data?.length && portfolio?.data.map((coin: any) => 
+        <>
+        {isFetching && <div>Loading portfolio...</div>}
+        {!!portfolio?.length && portfolio?.map((coin: any) => 
             <Card variant='outlined' key={coin.name}>
                 <h1>{coin.name}</h1>
                 <h2>Rank: {coin.cmc_rank}</h2>
@@ -16,6 +21,7 @@ export const Portfolio = (props: Props) => {
                 <h2>Price as of: {coin.last_updated}</h2>
             </Card>
         )}
+        {!isFetching && !portfolio.length && <div>Your portfolio is empty!</div>}
         </>
     )
 }

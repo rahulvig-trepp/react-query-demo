@@ -11,7 +11,7 @@ app.use(express.json())
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.get('/crypto_data', (req, res) => {
-  // setTimeout(() => {
+  setTimeout(() => {
   const date = new Date();
   const [hours, minutes, seconds] = [
     date.getHours(),
@@ -25,7 +25,7 @@ app.get('/crypto_data', (req, res) => {
     symbol: coin.symbol,
     last_updated: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}, ${hours}:${minutes}:${seconds}`
   })));
-  // }, 3000)
+  }, 3000)
 }); 
 
 const portfolio = [];
@@ -33,6 +33,8 @@ const portfolio = [];
 app.get('/portfolio', (req, res) => {
   setTimeout(() => {
     res.send(portfolio)
+    // res.status(404)
+    // res.json({ message: 'Could not add item!' })
   }, 3000)
 })
 

@@ -21,8 +21,8 @@ function App() {
   }
 
   const views: any = {
-    'list': <><h1>Top 100 Cryptos</h1><CryptoList/></>,
-    'portfolio': <><h1>Your Portfolio</h1><Portfolio/></>
+    'list': <><h1>Top 100 Cryptos</h1><Portfolio/><CryptoList/></>,
+    // 'portfolio': <><h1>Your Portfolio</h1>/>
   }
   
   return (
