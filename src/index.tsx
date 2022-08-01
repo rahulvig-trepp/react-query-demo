@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+//COINBASE API KEY e659ed34-40b9-4bdd-b42a-6cdf09f7ddb0
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
